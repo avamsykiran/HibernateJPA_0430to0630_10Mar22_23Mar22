@@ -113,3 +113,114 @@ JPA and Hibernate
                                             LocalDate joinDate;
                                             LocalDate relevingDate;
                                         }
+
+    Java Approach to ORM - JPA (Java Persistence API) + JTA (Java Transaction API)
+    ------------------------------------------------------------------------
+
+            specifications                      implementations
+            JDBC                                database drivers
+            Servlets API                        web servers like CATALINA of Tomcat
+            JPA and JTA                         thrid party implmentors like
+                                                        Hibernate
+                                                        TopLink
+                                                        Eclipse ORM ....etc
+
+        JPA Configuaration              ${project.basedir}/src/META-INF/persistence.xml
+            1. db driver
+            2. db dialect
+            3. db url, uid and pwds
+            4. jpa provider (jpa implmentation)
+            5. any other jpa provider related customizations....
+
+        JPA Mapping Annotations
+
+            @Entity             class level
+            @Embedable          class level
+            @Table              class level
+
+            @Id                 field level     marks primary key
+            @GeneratedValue     field level     strategy 'AUTO/INCREMENT/SEQUENCE'
+            @Column             field level     name,unique,nullable ..etc
+            @Transiant          field level     skip a field from being mapped with any column
+            @Enumerated         field level     
+            @EmbededId          field level     used to mark composite keys
+
+                                                @Embedable
+                                                class StudentId {
+                                                    private Integer roll;
+                                                    private String clazz;
+                                                    private String section;
+                                                }
+
+                                                @Entity
+                                                class Student{
+                                                    @EmbededId
+                                                    private StudentId studentId;
+                                                    ...............
+                                                }
+
+            @Inheretence        class level     strategy 'SINGLE_TABLE/JOINED_TABLE/TABLE_PER_CLASS'
+            @DiscreminatorColumn
+            @DiscreminatorValue
+
+            @Embeded            field level     for composition
+
+            @OneToOne           field level     for one to one aggregation
+            @OneToMany          field level     for one to many aggregation
+            @ManyToOne          field level     for many to one aggregation
+            @ManyToMany         field level     for many to many aggregation
+
+            @JoinColumn         field level
+            @JoinTable          field level
+
+        JPQL - Java Persistence Query Language                     SQL
+            uses class names and field names                            uses table names and column names
+
+            SELECT e FROM Employee e                                    SELECT * FROM emps
+            SELECT e.name,e.mailId FROM Employee e                      SELECT ename,mail_id FROM emps
+            
+            SELECT e.salary FROM Employee e                             SELECT e.sal 
+            WHERE e.dept.title="ACCOUNTS"                               FROM   emps e INNET JOIN depts d 
+                                                                        ON     e.dept_no = d.dept_no
+                                                                        WHERE  d.title='ACCOUNTS'
+
+        JPA api
+            Persistence
+                .createEntityManagerFactory("PU_NAME")
+                    EntityManagerFactory
+                        ::createEntityManager()
+                            EntityManager
+                                ::find(Entity.class,ID_VALUE) : Entity
+                                ::persist(entity) : Entity                   INSERT
+                                ::merge(entity)   : Entity                  UPDATE
+                                ::remove(entity)  : void                    DELETE
+                                ::createQuery("JPQL QRY") : Query
+                                ::createQuery("JPQL QRY",Entity.class) : TypedQuery
+                                ::getTransaction() : EntityTransaction
+            
+            EntityTransaction
+                ::begin()
+                ::commit()
+                ::rollback()
+
+            Query
+                ::getResults() : List
+                ::getStream() : Stream
+            
+            TypedQuery
+                ::getResults() : List<Entity>
+                ::getStream() : Stream<Entity>
+
+        Hibernate api
+            SessionFactory
+                .createSession()
+                    Session
+                        ::get(entity.class,id_value) : Entity
+                        ::load(entity.class,id_value) : Entity
+                        ::save(entity)
+                        ::update(entity)
+                        ::saveOrUpdate(entity)
+                        ::delete(entity)
+                        ::createQuery("HQL QRY") : Query
+                        ::createQuery("HQL QRY",Entity.class) : TypedQuery
+                        ::beginTransaction() : Transaction
