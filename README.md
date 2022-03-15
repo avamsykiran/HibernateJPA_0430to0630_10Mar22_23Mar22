@@ -160,8 +160,8 @@ JPA and Hibernate
                                                 }
 
             @Inheretence        class level     strategy 'SINGLE_TABLE/JOINED_TABLE/TABLE_PER_CLASS'
-            @DiscreminatorColumn
-            @DiscreminatorValue
+            @DiscriminatorColumn
+            @DiscriminatorValue
 
             @Embeded            field level     for composition
 
