@@ -173,6 +173,49 @@ JPA and Hibernate
             @JoinColumn         field level
             @JoinTable          field level
 
+
+        Fetch Strategies
+            LAZY
+            EAGER
+
+        Cascading Strategies
+            NONE
+            ALL
+            PERSIST
+            MERGE
+            DELETE
+            DETACH
+            REFRESH
+
+        Case Study
+        ----------------------------------------------------------------------------------
+
+            A Direct-to-Home (tatasky or dish...etc) System
+
+            1. A consuemr is represented by his mobile number.
+            2. While registration we need to record the name,address and mobile number
+            3. Each Channel is represented by a channel code and detials like channel name
+                monthly fee are needed
+            4. A consumer can have more than one subscription
+            5. Each subscription can have a group of packages or individual channels.
+            6. Each subscription will have a activation date and validity date.
+            7. A package is a group of a few channels.
+            
+            Consumer
+                ---OneTOMany-->> <<--ManyToOne--- Subscription
+
+            Channel
+                ---OneTOMany-->> <<--ManyToOne--- PackazeItem
+                ---OneTOMany-->> <<--ManyToOne--- SubscriptionItem
+
+            Packaze
+                ---OneTOMany-->> <<--ManyToOne--- PackazeItem
+                ---OneTOMany-->> <<--ManyToOne--- SubscriptionItem
+
+            Subscription
+                ---OneTOMany-->> <<--ManyToOne--- SubscriptionItem
+
+
         JPQL - Java Persistence Query Language                     SQL
             uses class names and field names                            uses table names and column names
 
