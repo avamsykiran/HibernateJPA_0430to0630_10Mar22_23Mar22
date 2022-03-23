@@ -11,8 +11,22 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+
+@NamedQueries({
+	@NamedQuery(
+			name = "EMP_SAL_RANGE",
+			query = "SELECT e FROM Employee e WHERE e.basicPay BETWEEN :lower and :upper"
+	),
+	@NamedQuery(
+			name = "EMP_BY_GENDER",
+			query = "SELECT e FROM Employee e WHERE e.gender = :gender"
+	)
+})
 
 @Entity
 @Table(name = "employees")
